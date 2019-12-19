@@ -30,7 +30,7 @@ createAutoComplete({
   root: document.querySelector('#left-autocomplete'),
   onOptionSelect(movie) {
     document.querySelector('.tutorial').classList.add('is-hidden');
-    onMovieSelect(movie, document.querySelector('#left-summary'), 'left');
+    onMovieSelect(movie, document.querySelector('#summary-one'), 'search-one');
   }
 });
 createAutoComplete({
@@ -38,12 +38,38 @@ createAutoComplete({
   root: document.querySelector('#right-autocomplete'),
   onOptionSelect(movie) {
     document.querySelector('.tutorial').classList.add('is-hidden');
-    onMovieSelect(movie, document.querySelector('#right-summary'), 'right');
+    onMovieSelect(movie, document.querySelector('#summary-two'), 'search-two');
+  }
+});
+createAutoComplete({
+  ...autoCompleteConfig,
+  root: document.querySelector('#left-autocomplete-two'),
+  onOptionSelect(movie) {
+    document.querySelector('.tutorial').classList.add('is-hidden');
+    onMovieSelect(
+      movie,
+      document.querySelector('#summary-three'),
+      'search-three'
+    );
+  }
+});
+createAutoComplete({
+  ...autoCompleteConfig,
+  root: document.querySelector('#right-autocomplete-two'),
+  onOptionSelect(movie) {
+    document.querySelector('.tutorial').classList.add('is-hidden');
+    onMovieSelect(
+      movie,
+      document.querySelector('#summary-four'),
+      'search-four'
+    );
   }
 });
 
-let leftMovie;
-let rightMovie;
+let movieOne;
+let movieTwo;
+let movieThree;
+let movieFour;
 const onMovieSelect = async (movie, summaryElement, side) => {
   const response = await axios.get('http://www.omdbapi.com/', {
     params: {
@@ -53,38 +79,62 @@ const onMovieSelect = async (movie, summaryElement, side) => {
   });
   summaryElement.innerHTML = movieTemplate(response.data);
 
-  if (side === 'left') {
-    leftMovie = response.data;
+  if (side === 'search-one') {
+    movieOne = response.data;
+  } else if (side === 'search-two') {
+    movieTwo = response.data;
+  } else if (side === 'search-three') {
+    movieThree = response.data;
   } else {
-    rightMovie = response.data;
+    movieFour = response.data;
   }
 
-  if (leftMovie && rightMovie) {
+  if ((movieOne && movieTwo) || (movieThree && movieFour)) {
     runComparison();
   }
 };
 
 const runComparison = () => {
-  const leftSideStats = document.querySelectorAll(
-    '#left-summary .notification'
+  const firstSideStats = document.querySelectorAll(
+    '#summary-one .notification'
   );
-  const rightSideStats = document.querySelectorAll(
-    '#right-summary .notification'
+  const secondSideStats = document.querySelectorAll(
+    '#summary-two .notification'
+  );
+  const thirdSideStats = document.querySelectorAll(
+    '#summary-three .notification'
+  );
+  const fourthSideStats = document.querySelectorAll(
+    '#summary-four .notification'
   );
 
-  leftSideStats.forEach((leftStat, index) => {
-    const rightStat = rightSideStats[index];
+  firstSideStats.forEach((statOne, index) => {
+    const statTwo = secondSideStats[index];
+    const statThree = thirdSideStats[index];
+    const statFour = fourthSideStats[index];
 
-    const leftSideValue = parseInt(leftStat.dataset.value);
-    const rightSideValue = parseInt(rightStat.dataset.value);
+    const valueOne = parseInt(statOne.dataset.value);
+    const valueTwo = parseInt(statTwo.dataset.value);
+    const valueThree = parseInt(statThree.dataset.value);
+    const valueFour = parseInt(statFour.dataset.value);
 
-    if (rightSideValue > leftSideValue) {
-      leftStat.classList.remove('is-primary');
-      leftStat.classList.add('is-warning');
-    } else {
-      rightStat.classList.remove('is-primary');
-      rightStat.classList.add('is-warning');
-    }
+    let valueList = [
+      [valueOne, statOne],
+      [valueTwo, statTwo],
+      [valueThree, statThree],
+      [valueFour, statFour]
+    ];
+
+    valueList.sort((a, b) => a[0] - b[0]);
+
+    valueList[0][1].classList.remove('is-primary');
+    valueList[0][1].classList.add('is-danger');
+    valueList[1][1].classList.remove('is-primary');
+    valueList[1][1].classList.add('is-warning');
+    valueList[2][1].classList.remove('is-primary');
+    valueList[2][1].classList.add('is-info');
+
+    console.log(valueList);
   });
 };
 
@@ -105,8 +155,6 @@ const movieTemplate = movieDetail => {
       return prev + value;
     }
   }, 0);
-
-  console.log(awards);
 
   return `
     <article class="media">

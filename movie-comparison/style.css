@@ -46,3 +46,11 @@ figure .image img {
   height: 50px;
   margin-right: 10px;
 }
+
+.columns .column {
+  border: solid 2px hsl(204, 71%, 53%);
+}
+
+#placing {
+  padding-bottom: 25px;
+}

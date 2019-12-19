@@ -11,13 +11,14 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css"
     />
     <link rel="stylesheet" href="style.css" />
+    <title>Movie Comparison</title>
   </head>
   <body>
-    <section class="hero is-primary is-bold">
+    <section class="hero is-info is-bold">
       <div class="hero-body">
         <div class="container">
           <h1 class="title">
-            Movie Fight
+            Movie Comparison
             <span class="icon">
               <i class="fas fa-film"></i>
             </span>
@@ -26,21 +27,37 @@
       </div>
     </section>
     <div class="container">
+      <div id="placing">
+        <button class="button is-primary">1st</button>
+        <button class="button is-info">2nd</button>
+        <button class="button is-warning">3rd</button>
+        <button class="button is-danger">4th</button>
+      </div>
       <div class="columns">
         <div class="column">
           <div id="left-autocomplete"></div>
-          <div id="left-summary"></div>
+          <div id="summary-one"></div>
         </div>
 
         <div class="column">
           <div id="right-autocomplete"></div>
-          <div id="right-summary"></div>
+          <div id="summary-two"></div>
+        </div>
+      
+        <div class="column">
+          <div id="left-autocomplete-two"></div>
+          <div id="summary-three"></div>
+        </div>
+
+        <div class="column">
+          <div id="right-autocomplete-two"></div>
+          <div id="summary-four"></div>
         </div>
       </div>
 
-      <div class="column is-half notification is-primary tutorial">
-        <h1 class="title">Search For a Movie on Both Sides</h1>
-        <p class="subtitle">We will tell you which is best!</p>
+      <div class="column is-half notification is-info tutorial">
+        <h1 class="title">Search For a Movie in Each Search Menu</h1>
+        <p class="subtitle">The colors indicated above will rank their performance in each category!</p>
       </div>
     </div>
     <script src="utils.js"></script>
