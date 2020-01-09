@@ -11,7 +11,7 @@ const autoCompleteConfig = {
     return movie.Title;
   },
   async fetchData(searchTerm) {
-    const response = await axios.get('http://www.omdbapi.com/', {
+    const response = await axios.get('https://www.omdbapi.com/', {
       params: {
         apikey: '1324f79a',
         s: searchTerm
@@ -71,7 +71,7 @@ let movieTwo;
 let movieThree;
 let movieFour;
 const onMovieSelect = async (movie, summaryElement, side) => {
-  const response = await axios.get('http://www.omdbapi.com/', {
+  const response = await axios.get('https://www.omdbapi.com/', {
     params: {
       apikey: '1324f79a',
       i: movie.imdbID
@@ -133,8 +133,6 @@ const runComparison = () => {
     valueList[1][1].classList.add('is-warning');
     valueList[2][1].classList.remove('is-primary');
     valueList[2][1].classList.add('is-info');
-
-    console.log(valueList);
   });
 };
 
